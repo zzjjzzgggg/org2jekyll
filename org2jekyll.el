@@ -255,7 +255,7 @@ The `'%s`' will be replaced respectively by the blog entry name, the author, the
          (categories  (plist-get metadata :categories))
          (draft-file  (org2jekyll--draft-filename
                        (org2jekyll-input-directory org2jekyll-jekyll-drafts-dir)
-                       title)))
+                       (format "%s-%s" (substring date 0 10) title))))
     (unless (file-exists-p draft-file)
       (with-temp-file draft-file
         (insert (org2jekyll-default-headers-template layout
@@ -379,7 +379,7 @@ Depends on the metadata header #+LAYOUT."
 (defun org2jekyll--compute-ready-jekyll-file-name (date org-file)
   "Given a DATE and an ORG-FILE, compute a ready jekyll file name.
 If the current path contains the `'org2jekyll-jekyll-drafts-dir`', removes it."
-  (let ((temp-org-jekyll-filename (format "%s-%s" date
+  (let ((temp-org-jekyll-filename (format "%s%s" ""
                                           (file-name-nondirectory org-file)))
         (temp-org-jekyll-directory (file-name-directory org-file)))
     (->> temp-org-jekyll-filename
