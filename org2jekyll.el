@@ -376,11 +376,10 @@ Depends on the metadata header #+LAYOUT."
        s-trim
        (concat "\n")))
 
-(defun org2jekyll--compute-ready-jekyll-file-name (date org-file)
+(defun org2jekyll--compute-ready-jekyll-file-name (org-file)
   "Given a DATE and an ORG-FILE, compute a ready jekyll file name.
 If the current path contains the `'org2jekyll-jekyll-drafts-dir`', removes it."
-  (let ((temp-org-jekyll-filename (format "%s%s" ""
-                                          (file-name-nondirectory org-file)))
+  (let ((temp-org-jekyll-filename (file-name-nondirectory org-file))
         (temp-org-jekyll-directory (file-name-directory org-file)))
     (->> temp-org-jekyll-filename
          (format "%s%s" temp-org-jekyll-directory)
@@ -390,8 +389,7 @@ If the current path contains the `'org2jekyll-jekyll-drafts-dir`', removes it."
 (defun org2jekyll--copy-org-file-to-jekyll-org-file (date org-file yaml-headers)
   "Given DATE, ORG-FILE and YAML-HEADERS, copy content as org-jekyll ready file.
 This returns the new filename path."
-  (let ((jekyll-filename (org2jekyll--compute-ready-jekyll-file-name date
-                                                                     org-file)))
+  (let ((jekyll-filename (org2jekyll--compute-ready-jekyll-file-name org-file)))
     (with-temp-file jekyll-filename ;; write file updated with jekyll specifics
       (insert-file-contents org-file)
       (goto-char (point-min))
@@ -494,7 +492,8 @@ Publication skipped" error-messages)
                           org-file org-metadata)))
     (org-publish-file jekyll-filename
                       (assoc blog-project org-publish-project-alist))
-    (delete-file jekyll-filename)))
+    (delete-file jekyll-filename)
+	))
 
 (defun org2jekyll-publish-post (org-file)
   "Publish ORG-FILE as a post."
