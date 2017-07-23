@@ -210,10 +210,13 @@ POST-CATEGORIES is the categories."
 :: () -> [(Symbol, String)]"
   (list :author      org2jekyll-blog-author
         :date        (org2jekyll-now)
-        :layout      (org2jekyll--input-read "Layout: " '("post" "default"))
+        ;; :layout      (org2jekyll--input-read "Layout: " '("post" "default"))
+        :layout      "post"
         :title       (org2jekyll--read-title)
-        :description (org2jekyll--read-description)
-        :tags        (org2jekyll--read-tags)
+        ;; :description (org2jekyll--read-description)
+        :description "no description"
+        ;; :tags        (org2jekyll--read-tags)
+        :tags        "no"
         :categories  (org2jekyll--read-categories)))
 
 ;;;###autoload
